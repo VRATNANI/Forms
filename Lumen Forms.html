@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<title>Forms</title>
+<script>
+
+    
+        var myHeaders = new Headers();
+        myHeaders.append("Authorization", "Bearer 5d84d3cdf963ab22dbecc8562c9a019a2bab06a1");
+
+        var requestOptions = {
+            method: 'GET',
+            headers: myHeaders,
+            redirect: 'follow'
+        };
+
+        fetch("https://api.github.com/repos/VRATNANI/Forms/contents/Templates", requestOptions)
+            .then(response => response.text())
+            .then(result => console.log(result))
+            .catch(error => console.log('error', error));
+</script>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/js/standalone/selectize.min.js"
+        integrity="sha256-+C0A5Ilqmu4QcSPxrlGpaZxJ04VjsRjKu+G82kl5UJk=" crossorigin="anonymous"></script>
+
+    <style>
+        .gradient {
+            height: 100%;
+            background-color: #17a2b8;
+            background-image: linear-gradient(to right, white, #17a2b8, darkslategrey) !important;
+        }
+
+        .interestSelector {
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body class="gradient">
+    <!--Navigaion Bar Starts-->
+    <nav class="navbar navbar-light bg-white">
+        <a class="navbar-brand font-weight-bold font-arial text-info" href="#">
+            <img src="/bannerlogo.png" width="130" height="30" class="d-inline-block align-top" alt="" loading="lazy">
+            Forms
+        </a>
+    </nav>
+    <!--Navigaion Bar Ends-->
+
+    <div class="container mt-5" id="mainContainer">
+        <div class="container-fluid bg-white rounded" style="width: 80%">
+            <br>
+            <div class="container row mb-2">
+                <h3 class="text-dark">Feedback <span class="text-info">Form</span></h3>
+            </div>
+            <div class="form-group row justify-content-center">
+                <div class="col-lg-4 col-md-12 col-sm-12 mt-2">
+                    <input type="text" class="form-control border-info" id="firstName" data-toggle="tooltip"
+                        data-placement="bottom" title="First Name" placeholder="First Name" required>
+                </div>
+                <div class="col-lg-4 col-md-12 col-sm-12 mt-2">
+                    <input type="text" class="form-control border-info" id="lastName" data-toggle="tooltip"
+                        data-placement="bottom" title="Last Name" placeholder="Last Name" required>
+                </div>
+                <div class="col-lg-4 col-md-12 col-sm-12 mt-2">
+                    <input type="email" class="form-control border-info" id="eMail" data-toggle="tooltip"
+                        data-placement="bottom" title="E-mail ID" placeholder="E-mail ID" required>
+                </div>
+            </div>
+            <div class="form-group row d-flex justify-content-center pb-2">
+                <div class="col-lg-4 col-md-12 col-sm-12">
+                    <select id="areaOfInterest" class="text-left p-1 interestSelector rounded border-info"
+                        data-toggle="tooltip" data-placement="bottom" title="Area of Interest"
+                        placeholder="Area of Interest" onchange="getInterest()" required>
+                        <option value="">Area of Interest</option>
+                    </select>
+                </div>
+                <!--<div class="col-lg-4 col-md-12 col-sm-12">
+                <input type="date" class="form-control border-info" id="dateTime" data-toggle="tooltip"
+                    data-placement="bottom" title="Preferred Date" placeholder="Preferred Date" required>
+            </div>-->
+            </div>
+            <div class="container" id="formData">
+                <p id="changed" class="text-dark bg-white text-center">Value</p>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    function getInterest() {
+        document.getElementById('areaOfInterest').disabled = true;
+        document.getElementById('changed').innerHTML = document.getElementById('areaOfInterest').value;
+    }
+</script>
+
+</html>
