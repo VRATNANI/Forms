@@ -5,7 +5,7 @@
     window.onload = function () {
         var data;
         var myHeaders = new Headers();
-        myHeaders.append("Authorization", "Bearer 3c78d9a1bd23503820d494d0e238e6595dd76471");
+        myHeaders.append("Authorization", "Bearer 6cb41d8c1dc3d5f54897cc7379e6521746633414");
 
         var requestOptions = {
             method: 'GET',
@@ -71,7 +71,7 @@
 
 <body class="gradient">
     <!--Navigaion Bar Starts-->
-    <nav class="navbar navbar-light bg-white">
+    <nav class="navbar navbar-light bg-white" id="navBar">
         <a class="navbar-brand font-weight-bold font-arial text-info" href="#">
             <img src="/bannerlogo.png" width="130" height="30" class="d-inline-block align-top" alt="" loading="lazy">
             Forms
@@ -79,8 +79,8 @@
     </nav>
     <!--Navigaion Bar Ends-->
 
-    <div class="container mt-5" id="mainContainer">
-        <div class="container-fluid bg-white rounded" style="width: 80%">
+    <div class="container mt-5">
+        <div class="container-fluid bg-white rounded"  id="mainContainer" style="width: 80%">
             <br>
             <div class="container row mb-2">
                 <h3 class="text-dark">Feedback <span class="text-info">Form</span></h3>
@@ -108,26 +108,30 @@
                     </select>
                 </div>
             </div>
-            <div class="container" id="formData">
-                <p id="changed" class="text-dark bg-white text-center">Value</p>
-                <div class="row">
-                    <label for="1" class="text-dark col-lg-10 col-md-10 col-sm-10">Q1. What is your name?</label>
-                    <div class="col-lg-4 col-sm-8 col-md-8">
-                        <input type="text" class="border-info form-control" id="1">
-                    </div>
-                </div>
+            <div class="container" id="formData" style="width: 100%; display: none;">
+                <p></p>
             </div>
-            <div class="row justify-content-center">
-                <label for="dateTime" class="col-form-label">Preferred Date</label>
+            <div class="row justify-content-center" id="preferredDate" style="display: none;">
+                <label for="dateTime" class="col-form-label font-weight-bold text-dark">Preferred <span
+                        class="text-info">Date</span></label>
                 <div class="col-lg-4 col-md-12 col-sm-12">
                     <input type="text" class="form-control border-info" name="dateTime" id="dateTime"
                         data-toggle="tooltip" data-provide='datepicker' data-placement="bottom" title="Preferred Date"
                         placeholder="Preferred Date" required>
                 </div>
             </div>
-            <div class="row justify-content-center pb-2 pt-2">
-                <button type="button" class="btn btn-info">Submit</button>
+            <div class="row justify-content-center pb-2 pt-2" id="submitButton" style="display: none;">
+                <button type="button" class="btn btn-info" onclick="getResponse()">Submit</button>
             </div>
+        </div>
+        <div class="container-fluid bg-white rounded" id="finalContainer" style="width:40%; display: none;">
+            <div class="pt-3 pb-2 pl-2">
+                <label class="font-weight-bold text-info navbar-brand">
+                    <img src="/bannerlogo.png" width="130" height="30" class="d-inline-block align-top" alt="" loading="lazy">
+                    Forms
+                </label>
+            </div>
+            <h5 class="text-dark pb-3 pl-3">Thanks for the <span class="text-info">response.</span></h5>
         </div>
     </div>
 </body>
@@ -136,49 +140,183 @@
     date.setDate(date.getDate() + 14)
     $('#dateTime').datepicker({
         startDate: date
-    })
+    });
     function getInterest() {
         document.getElementById('areaOfInterest').disabled = true;
         var areaOfInterest = document.getElementById('areaOfInterest').value;
-        document.getElementById('changed').innerHTML = areaOfInterest;
         var rows = [];
         var myHeaders = new Headers();
-        myHeaders.append("Authorization", "Bearer 3c78d9a1bd23503820d494d0e238e6595dd76471");
+        myHeaders.append("Authorization", "Bearer 6cb41d8c1dc3d5f54897cc7379e6521746633414");
 
         var requestOptions = {
             method: 'GET',
             headers: myHeaders,
             redirect: 'follow'
         };
-
+        var rows = [];
         fetch("https://api.github.com/repos/VRATNANI/Forms/contents/Templates/" + areaOfInterest + ".csv", requestOptions)
             .then(response => response.json())
             .then(result => data = result)
             .then(() => {
-                var rows = atob(data.content).split("\n");
+                var formData = "";
+                rows = atob(data.content).split("\n");
                 for (var i = 0; i < rows.length; i++) {
                     if (rows[i].length < 1) {
                         rows.pop(i);
                     }
                 }
+                formData += "<input type='hidden' id='dataSupply' value='" + rows + "'>"
+                formData += "<h3 class='text-dark something' name='" + rows.length + "'>" + rows[0].split(",")[0] + " <span class='text-info'>Registration</span></h3>";
+                var preData = "";
+                for (var i = 1; i < rows.length; i++) {
+                    var label = "";
+                    var content = "";
+                    var row = rows[i].split(",");
+                    for (var j = 0; j < row.length; j++) {
+                        if (row[j].length < 1) {
+                            row.pop(row[j]);
+                        }
+                    }
+                    var id = row[0];
+                    var question = row[2];
+                    label += "<label for=" + id + " class='text-dark col-lg-10 col-md-10 col-sm-10'>Q<span class='text-info'>" + id + "</span>. " + question + "</label>"
+                    if (row[1] == "multi-select") {
+                        var checkString = "";
+                        for (var j = 3; j < row.length; j++) {
+                            checkString += "<label class='check-inline col-lg-10 col-md-10 col-sm-10 font-weight-bold'><input type='checkbox' name='" + id + "' value='" + row[j] + "'> " + row[j] + "</label>"
+                        }
+                        content = "<div class='form-group col-lg-10 col-md-10 col-sm-10'>" + checkString + "</div>";
+                    }
+                    if (row[1] == "single-choose") {
+                        var radioString = "";
+                        for (var j = 3; j < row.length; j++) {
+                            radioString += "<label class='radio-inline col-lg-10 col-md-10 col-sm-10 font-weight-bold'><input type='radio' name='" + id + "' value='" + row[j] + "'> " + row[j] + "</label>"
+                        }
+                        content = "<div class='form-group col-lg-10 col-md-10 col-sm-10'>" + radioString + "</div>";
+                    }
+                    if (row[1] == "text") {
+                        content = "<div class='col-lg-4 col-sm-8 col-md-8'><input type='text'class='border-info form-control' data-toggle='tooltip' data-placement='bottom' title='Your answer here!' placeholder='Your answer here!' id=" + id + "></div>"
+                    }
+                    preData += "<div class='row p-2'>" + label + content + "</div>"
 
+                }
+                formData += preData;
+                document.getElementById('formData').innerHTML = formData;
+                $('#formData').show();
+                $('#dateTime').show();
+                $('#submitButton').show();
             })
             .catch(error => console.log('error', error));
 
+    }
+
+    function getResponse() {
+        if(document.getElementById('firstName').value==""||document.getElementById('lastName').value==""||document.getElementById('eMail').value==""){
+            alert('All fields are andatory');
+        }
+        else{
+        console.log("First Name: " + document.getElementById('firstName').value);
+        console.log("Last Name: " + document.getElementById('lastName').value);
+        console.log("Email ID: " + document.getElementById('eMail').value);
+        console.log("Area of Interest: " + document.getElementById('areaOfInterest').value);
+        console.log("Questions");
+        var rows = document.getElementById('dataSupply').value.toString().split(",,");
+        for (var i = 1; i < rows.length; i++) {
+            var logger = "";
+            var response = "";
+            var row = rows[i].split(",");
+
+
+            for (var j = 0; j < row.length; j++) {
+                if (row[j].length < 1) {
+                    row.pop(row[j]);
+                }
+            }
+
+            if (row[1] == "multi-select") {
+                var options = document.getElementsByName(i.toString());
+
+                for (var j = 0; j < options.length; j++) {
+                    if (options[j].checked) {
+                        response += "," + options[j].value;
+                    }
+                }
+                logger = i.toString() + ". " + row[2] + " Ans: " + response.substr(1, response.length);
+                console.log(logger);
+            }
+
+            if (row[1] == "single-choose") {
+
+                var options = document.getElementsByName(i.toString());
+                for (var j = 0; j < options.length; j++) {
+                    if (options[j].checked) {
+                        response = options[j].value;
+                    }
+                }
+                logger = i.toString() + ". " + row[2] + " Ans: " + response;
+                console.log(logger);
+
+            }
+
+            if (row[1] == "text") {
+                response = document.getElementById(i.toString()).value;
+                logger = i.toString() + ". " + row[2] + " Ans: " + response;
+                console.log(logger);
+            }
+        }
+        document.getElementById('mainContainer').style.display = "none";
+        document.getElementById('navBar').style.display = "none";
+        $('#finalContainer').show();
+            
+        }
     }
 </script>
 
 </html>
 <!--
     Common Tag
-    "<div class='row'>"+label+solution-type+"</div>"
+    "<div class='row p-2'>"+label+solution-type+"</div>"
+
+    Header Tag
+    "<h3 class='text-dark'>"+rows[0]+" <span class='text-info'>Registration</span></h3>"
     
     Label Tag
-    "<label for="+data[0]+" class='text-dark col-lg-10 col-md-10 col-sm-10'>"+data[2]+"</label>"
+    "<label for="+data[0]+" class='text-dark col-lg-10 col-md-10 col-sm-10'>Q<span class="text-info">"+data[0]+"</span>. "+data[2]+"</label>"
 
     Input Box
-    "<div class='col-lg-4 col-sm-8 col-md-8'><input type='text' class='border-info form-control' id="+data[0]+"></div>"
+    "<div class='col-lg-4 col-sm-8 col-md-8'><input type='text'
+        class='border-info form-control' data-toggle='tooltip'
+            data-placement='bottom' title='Your answer here!' placeholder='Your answer here!' id="+data[0]+"></div>"
 
-    Options- Radio
+    Options- Radio, Checkbox- Common
+    "<div class='form-group col-lg-10 col-md-10 col-sm-10'>"+radioString/checkString+"</div>"
+    
+    Radio String
+    "<label class='radio-inline col-lg-10 col-md-10 col-sm-10 font-weight-bold'><input type='radio' value='"+data[i]+"'>"+data[i]+"</label>"
 
+    Check String
+    "<label class='check-inline col-lg-10 col-md-10 col-sm-10 font-weight-bold'><input type='checkbox' value='"+data[i]+"'>"+data[i]+"</label>"
+
+
+
+
+
+    ###Check Box Value Logic###
+    var response="";
+        var options = document.getElementsByName('1');
+        for (var i=0; i<options.length; i++){
+            if(options[i].checked){
+                response+=","+options[i].value;
+            }
+        }
+    
+    ###Radio Value Logic###
+    var response="";
+        var options = document.getElementsByName('1');
+        for (var i=0; i<options.length; i++){
+            if(options[i].checked){
+                response=options[i].value;
+                break;
+            }
+        }
 -->
