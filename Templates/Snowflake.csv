@@ -1,6 +1,6 @@
 Snowflake,
 1,single-choose,Where you are on your cloud migration journey?,Experimentation,Foundation,Migration,Transformation,Optimization,
-2,single-choose,Where is your current enviornment hosted?,On-Premise,Public- Cloud,Hybrid,Private cloud,
+2,single-choose,Where is your current enviornment hosted?,On-Premise,Public- Cloud,Hybrid,Private cloud
 3,text,Name few technologies in your current landscape.,
 4,multi-select,What is your core migration strategy requirement?,Business/ Org Startegy,Technology/Technical Strategy,
 5,text,Any data ingestion pipelines which you wish to implement with cloud DW migrations?,
