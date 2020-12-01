@@ -5,7 +5,7 @@
     window.onload = function () {
         var data;
         var myHeaders = new Headers();
-        myHeaders.append("Authorization", "Bearer 6cb41d8c1dc3d5f54897cc7379e6521746633414");
+        myHeaders.append("Authorization", "Bearer a20ad4c9fc7f3300318b2fa5bdc392d53cdc3a6f");
 
         var requestOptions = {
             method: 'GET',
@@ -35,6 +35,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <script src="https://smtpjs.com/v3/smtp.js">
+    </script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
         integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
@@ -80,7 +82,7 @@
     <!--Navigaion Bar Ends-->
 
     <div class="container mt-5">
-        <div class="container-fluid bg-white rounded"  id="mainContainer" style="width: 80%">
+        <div class="container-fluid bg-white rounded" id="mainContainer" style="width: 80%">
             <br>
             <div class="container row mb-2">
                 <h3 class="text-dark">Feedback <span class="text-info">Form</span></h3>
@@ -111,7 +113,7 @@
             <div class="container" id="formData" style="width: 100%; display: none;">
                 <p></p>
             </div>
-            <div class="row justify-content-center" id="preferredDate" style="display: none;">
+            <div class="row pl-5 pt-5 pb-3" id="preferredDate" style="display: none;">
                 <label for="dateTime" class="col-form-label font-weight-bold text-dark">Preferred <span
                         class="text-info">Date</span></label>
                 <div class="col-lg-4 col-md-12 col-sm-12">
@@ -127,7 +129,8 @@
         <div class="container-fluid bg-white rounded" id="finalContainer" style="width:40%; display: none;">
             <div class="pt-3 pb-2 pl-2">
                 <label class="font-weight-bold text-info navbar-brand">
-                    <img src="/bannerlogo.png" width="130" height="30" class="d-inline-block align-top" alt="" loading="lazy">
+                    <img src="/bannerlogo.png" width="130" height="30" class="d-inline-block align-top" alt=""
+                        loading="lazy">
                     Forms
                 </label>
             </div>
@@ -146,7 +149,7 @@
         var areaOfInterest = document.getElementById('areaOfInterest').value;
         var rows = [];
         var myHeaders = new Headers();
-        myHeaders.append("Authorization", "Bearer 6cb41d8c1dc3d5f54897cc7379e6521746633414");
+        myHeaders.append("Authorization", "Bearer a20ad4c9fc7f3300318b2fa5bdc392d53cdc3a6f");
 
         var requestOptions = {
             method: 'GET',
@@ -166,12 +169,14 @@
                     }
                 }
                 formData += "<input type='hidden' id='dataSupply' value='" + rows + "'>"
-                formData += "<h3 class='text-dark something' name='" + rows.length + "'>" + rows[0].split(",")[0] + " <span class='text-info'>Registration</span></h3>";
+                formData += "<h3 class='text-dark'>" + rows[0].split(",")[0] + " <span class='text-info'>Registration</span></h3>";
                 var preData = "";
                 for (var i = 1; i < rows.length; i++) {
                     var label = "";
+                    var row;
                     var content = "";
-                    var row = rows[i].split(",");
+                    row = rows[i].split(",");
+                    console.log(row);
                     for (var j = 0; j < row.length; j++) {
                         if (row[j].length < 1) {
                             row.pop(row[j]);
@@ -179,31 +184,31 @@
                     }
                     var id = row[0];
                     var question = row[2];
-                    label += "<label for=" + id + " class='text-dark col-lg-10 col-md-10 col-sm-10'>Q<span class='text-info'>" + id + "</span>. " + question + "</label>"
+                    label += "<label for=" + id + " class='text-dark col-lg-10 col-md-10 col-sm-10 font-weight-bold'>Q<span class='text-info'>" + id + "</span>. " + question + "</label>"
                     if (row[1] == "multi-select") {
                         var checkString = "";
                         for (var j = 3; j < row.length; j++) {
-                            checkString += "<label class='check-inline col-lg-10 col-md-10 col-sm-10 font-weight-bold'><input type='checkbox' name='" + id + "' value='" + row[j] + "'> " + row[j] + "</label>"
+                            checkString += "<label class='check-inline col-lg-10 col-md-10 col-sm-10'><input type='checkbox' name='" + id + "' value='" + row[j] + "'> " + row[j] + "</label>"
                         }
                         content = "<div class='form-group col-lg-10 col-md-10 col-sm-10'>" + checkString + "</div>";
                     }
                     if (row[1] == "single-choose") {
                         var radioString = "";
                         for (var j = 3; j < row.length; j++) {
-                            radioString += "<label class='radio-inline col-lg-10 col-md-10 col-sm-10 font-weight-bold'><input type='radio' name='" + id + "' value='" + row[j] + "'> " + row[j] + "</label>"
+                            radioString += "<label class='radio-inline col-lg-10 col-md-10 col-sm-10'><input type='radio' name='" + id + "' value='" + row[j] + "'> " + row[j] + "</label>"
                         }
                         content = "<div class='form-group col-lg-10 col-md-10 col-sm-10'>" + radioString + "</div>";
                     }
                     if (row[1] == "text") {
-                        content = "<div class='col-lg-4 col-sm-8 col-md-8'><input type='text'class='border-info form-control' data-toggle='tooltip' data-placement='bottom' title='Your answer here!' placeholder='Your answer here!' id=" + id + "></div>"
+                        content = "<div class='col-lg-8 col-sm-8 col-md-8 pb-2'><input type='text'class='border-info form-control' data-toggle='tooltip' data-placement='bottom' title='Your answer here!' placeholder='Your answer here!' id=" + id + "></div>"
                     }
-                    preData += "<div class='row p-2'>" + label + content + "</div>"
+                    preData += "<div class='row pl-3 pt-4'>" + label + content + "</div>"
 
                 }
                 formData += preData;
                 document.getElementById('formData').innerHTML = formData;
                 $('#formData').show();
-                $('#dateTime').show();
+                $('#preferredDate').show();
                 $('#submitButton').show();
             })
             .catch(error => console.log('error', error));
@@ -211,64 +216,73 @@
     }
 
     function getResponse() {
-        if(document.getElementById('firstName').value==""||document.getElementById('lastName').value==""||document.getElementById('eMail').value==""){
+        if (document.getElementById('firstName').value == "" || document.getElementById('lastName').value == "" || document.getElementById('eMail').value == "") {
             alert('All fields are andatory');
         }
-        else{
-        console.log("First Name: " + document.getElementById('firstName').value);
-        console.log("Last Name: " + document.getElementById('lastName').value);
-        console.log("Email ID: " + document.getElementById('eMail').value);
-        console.log("Area of Interest: " + document.getElementById('areaOfInterest').value);
-        console.log("Questions");
-        var rows = document.getElementById('dataSupply').value.toString().split(",,");
-        for (var i = 1; i < rows.length; i++) {
+        else {
+            var rows = document.getElementById('dataSupply').value.toString().split("\n");
+            console.log(rows);
             var logger = "";
-            var response = "";
-            var row = rows[i].split(",");
+            for (var i = 1; i < rows.length; i++) {
 
-
-            for (var j = 0; j < row.length; j++) {
-                if (row[j].length < 1) {
-                    row.pop(row[j]);
-                }
-            }
-
-            if (row[1] == "multi-select") {
-                var options = document.getElementsByName(i.toString());
-
-                for (var j = 0; j < options.length; j++) {
-                    if (options[j].checked) {
-                        response += "," + options[j].value;
+                var response = "";
+                var row = rows[i].split(",");
+                for (var j = 0; j < row.length; j++) {
+                    if (row[j].length < 1) {
+                        row.pop(row[j]);
                     }
                 }
-                logger = i.toString() + ". " + row[2] + " Ans: " + response.substr(1, response.length);
-                console.log(logger);
-            }
+                console.log(row);
+                if (row[2] == "multi-select") {
+                    var options = document.getElementsByName(i.toString());
 
-            if (row[1] == "single-choose") {
-
-                var options = document.getElementsByName(i.toString());
-                for (var j = 0; j < options.length; j++) {
-                    if (options[j].checked) {
-                        response = options[j].value;
+                    for (var j = 0; j < options.length; j++) {
+                        if (options[j].checked) {
+                            response += "," + options[j].value;
+                        }
                     }
+                    //logger += "<p>" + i.toString() + ". " + row[2] + " Response: <span class='text-dark'>" + response.substr(1, response.length) + "</span></p>";
+                    logger += '<div class="row">' + i.toString() + '. ' + row[3] + '</div><div class="row">Response: ' + response.substr(1, response.length) + '</div>';
                 }
-                logger = i.toString() + ". " + row[2] + " Ans: " + response;
-                console.log(logger);
 
-            }
+                if (row[2] == "single-choose") {
 
-            if (row[1] == "text") {
-                response = document.getElementById(i.toString()).value;
-                logger = i.toString() + ". " + row[2] + " Ans: " + response;
-                console.log(logger);
+                    var options = document.getElementsByName(i.toString());
+                    for (var j = 0; j < options.length; j++) {
+                        if (options[j].checked) {
+                            response = options[j].value;
+                        }
+                    }
+                    //logger += "<p>" + i.toString() + ". " + row[2] + " Response: <span class='text-dark'>" + response + "</span></p>";
+                    logger += '<div class="row">' + i.toString() + '. ' + row[3] + '</div><div class="row">Response: ' + response + '</div>';
+                }
+
+                if (row[2] == "text") {
+                    response = document.getElementById(i.toString()).value;
+                    //logger += "<p>" + i.toString() + ". " + row[2] + " Response: <span class='text-dark'>" + response + "</span></p>";
+                    logger += '<div class="row">' + i.toString() + '. ' + row[3] + '</div><div class="row">Response: ' + response + '</div>';
+                }
             }
+            var preferredDate = "<p>Preferred Date: <span class='text-dark'>" + document.getElementById('dateTime').value + "</span></p>";
+            var emailContent = '<div class="container"><div class="row"><p>Hey Varan,</p></div><div class="row"><p>There\'s a new registration for ' + document.getElementById('areaOfInterest').value + ' Technology by ' + document.getElementById('firstName').value + " " + document.getElementById('lastName').value + ' and the preferred date is ' + preferredDate + '.</p></div>' + logger + '</div>';
+            console.log(logger);
+            sendEmail(emailContent);
+            document.getElementById('mainContainer').style.display = "none";
+            document.getElementById('navBar').style.display = "none";
+            $('#finalContainer').show();
+
         }
-        document.getElementById('mainContainer').style.display = "none";
-        document.getElementById('navBar').style.display = "none";
-        $('#finalContainer').show();
-            
-        }
+    }
+    function sendEmail(content) {
+        Email.send({
+            Host: "smtp.elasticemail.com",
+            Username: "varan29498@gmail.com",
+            Password: "D91CD9995FD3113398D8CCCAECF00BAB3428",
+            To: 'varan29498@gmail.com',
+            From: "varan29498@gmail.com",
+            Subject: "A New Registration!",
+            Body: content
+        });
     }
 </script>
 
