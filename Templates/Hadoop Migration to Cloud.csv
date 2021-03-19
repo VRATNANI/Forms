@@ -1,0 +1,12 @@
+Hadoop Migration to Cloud
+
+1|single-choose|Where is your Hadoop environment hosted?|On-Premise|Private Cloud|Public Cloud|Hybrid
+2|text|Which distribution of Hadooop are you currently using? (Cloudera, Apache, others)
+3|text|Please mention the cloud where you have presence? (Azure, GCP, AWS, IBM Cloud, Oracle Cloud, others)
+4|single-choose|Where are you on your cloud migration journey?|Experimentation|Foundation|Migration|Transformation|Optimization|Yet to start
+5|text|What challenges are you facing with current Hadoop environment?
+6|text|Name few technologies in your current landscape?(ETL Tools, Scripting/Programming language, Data Warehouse, BI Tool, etc)
+7|single-choose|What kinds of workloads do you have ?|Batch|On-Demand|Both
+8|single-choose|Do you have a use-case for real-time data processing?|Yes|No
+9|single-choose|Is there a scope of AI/ML in your use-case?
+10|text|Please share details of the areas which you would like to be covered as part of the session.
