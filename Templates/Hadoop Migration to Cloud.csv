@@ -8,5 +8,5 @@ Hadoop Migration to Cloud
 6|text|Name few technologies in your current landscape?(ETL Tools, Scripting/Programming language, Data Warehouse, BI Tool, etc)
 7|single-choose|What kinds of workloads do you have ?|Batch|On-Demand|Both
 8|single-choose|Do you have a use-case for real-time data processing?|Yes|No
-9|single-choose|Is there a scope of AI/ML in your use-case?
+9|single-choose|Is there a scope of AI/ML in your use-case?|Yes|No
 10|text|Please share details of the areas which you would like to be covered as part of the session.
