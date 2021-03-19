@@ -1,5 +1,5 @@
 Hadoop Migration to Cloud
-
+nikhil.tandon@lumen.com|raviraju.tandra@lumen.com
 1|single-choose|Where is your Hadoop environment hosted?|On-Premise|Private Cloud|Public Cloud|Hybrid
 2|text|Which distribution of Hadooop are you currently using? (Cloudera, Apache, others)
 3|text|Please mention the cloud where you have presence? (Azure, GCP, AWS, IBM Cloud, Oracle Cloud, others)
