@@ -1,0 +1,12 @@
+Cloud Data Warehouse
+nikhil.tandon@lumen.com|raviraju.tandra@lumen.com
+1|single-choose|Where is your current Data Warehouse hosted?|On-Premise|Public Cloud|Hybrid|Private Cloud
+2|text|Which Data Warehouse solution are you currently using? (Teradata, Netezza, Hadoop, others)
+3|text|Do you have any presence on cloud? If yes, Which cloud?
+4|single-choose|Where you are on your Cloud Migration Journey?|Experimentation|Foundation|Migration|Transformation|Optimization
+5|text|What are your challenges with the current Data Warehouse?
+6|text|Name few technologies in your current landscape. (ETL Tools, DW, Scheduler, etc)
+7|single-choose|What kinds of workloads do you have?|Batch|On-Demand|Both
+8|single-choose|Do you have a use-case for Real-Time Data Ingestion?|Yes|No
+9|single-choose|Do you plan to run AI/ML models on cloud DW?|Yes|No
+10|text|Kindly share details of the areas which you would like to be covered as part of the session.
